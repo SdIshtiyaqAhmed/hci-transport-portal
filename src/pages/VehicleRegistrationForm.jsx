@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import PrototypeNotice from '../components/PrototypeNotice';
-import { Car, Tag, Tool, FileText, CheckCircle, Info } from 'lucide-react';
+import { Car, Tag, Wrench, FileText, CheckCircle, Info } from 'lucide-react';
 import { saveApplication } from '../utils/simulation';
 
 /* 
@@ -149,7 +149,7 @@ const VehicleRegistrationForm = () => {
                   </div>
                   <div className="flex items-center gap-2 text-gov-blue-600 font-bold text-xs uppercase tracking-widest">
                     <span>Upload</span>
-                    <Tool size={14} />
+                    <Wrench size={14} />
                   </div>
                 </div>
               ))}
