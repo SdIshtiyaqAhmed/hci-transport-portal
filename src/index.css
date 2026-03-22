@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* 
+   Tailwind CSS v4 Variant Configurations 
+   Explicitly defining selector strategies for Accessibility Modes
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant high-contrast (&:where(.high-contrast, .high-contrast *));
+
+@theme {
+  --color-gov-blue-50: #eff6ff;
+  --color-gov-blue-100: #dbeafe;
+  --color-gov-blue-200: #bfdbfe;
+  --color-gov-blue-300: #93c5fd;
+  --color-gov-blue-400: #60a5fa;
+  --color-gov-blue-500: #3b82f6;
+  --color-gov-blue-600: #2563eb;
+  --color-gov-blue-700: #1d4ed8;
+  --color-gov-blue-800: #1e40af;
+  --color-gov-blue-900: #1e3a8a;
+  --color-gov-blue-950: #172554;
+  
+  --color-brand-primary: var(--color-gov-blue-700);
+  
+  --color-high-contrast-bg: #000000;
+  --color-high-contrast-text: #ffffff;
+  --color-high-contrast-border: #facc15;
+  --color-high-contrast-accent: #facc15;
+
+  --animate-subtle-bounce: subtle-bounce 2s ease-in-out infinite;
+
+  @keyframes subtle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+}
+
+/* Base resets and typography */
+@layer base {
+  :root {
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800 transition-colors duration-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased selection:bg-gov-blue-100 selection:text-gov-blue-900;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  .dark body {
+    @apply bg-gray-950 text-gray-50 selection:bg-gov-blue-900 selection:text-gov-blue-100;
+  }
+}
+
+/* 
+   High Contrast Mode Overrides
+   Implementing manually to ensure strict compliance with accessibility requirements
+*/
+@layer base {
+  .high-contrast {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --border-color: #facc15;
+    --accent-color: #facc15;
+  }
+
+  /* Force system-wide background and text colors */
+  html.high-contrast,
+  html.high-contrast body,
+  html.high-contrast #root,
+  html.high-contrast main,
+  html.high-contrast [class*="bg-"] {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    background-image: none !important;
+  }
+
+  /* Exceptions for buttons and interactive elements */
+  html.high-contrast button, 
+  html.high-contrast .btn,
+  html.high-contrast [role="button"],
+  html.high-contrast .btn-primary,
+  html.high-contrast .btn-secondary,
+  html.high-contrast .bg-gov-blue-700,
+  html.high-contrast .bg-yellow-400 {
+    background-color: var(--accent-color) !important;
+    color: #000000 !important;
+    border: 3px solid #ffffff !important;
+    font-weight: 900 !important;
+    opacity: 1 !important;
+  }
+
+  html.high-contrast * {
+    border-color: var(--border-color) !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html.high-contrast a {
+    color: var(--accent-color) !important;
+    text-decoration: underline !important;
+    font-weight: 800 !important;
+  }
+
+  html.high-contrast h1,
+  html.high-contrast h2,
+  html.high-contrast h3,
+  html.high-contrast h4,
+  html.high-contrast span,
+  html.high-contrast p,
+  html.high-contrast label {
+    color: var(--text-color) !important;
+  }
+
+  html.high-contrast input,
+  html.high-contrast select,
+  html.high-contrast textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 3px solid #ffffff !important;
+  }
+
+  /* Target specific components that might have inline styles or specific utility combinations */
+  html.high-contrast .premium-card,
+  html.high-contrast .card,
+  html.high-contrast .glass,
+  html.high-contrast nav,
+  html.high-contrast footer,
+  html.high-contrast section {
+    background-color: #000000 !important;
+    border: 2px solid var(--border-color) !important;
+  }
+}
+
+/* Custom Components and Utilities */
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8 w-full;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-extrabold text-gov-blue-900 dark:text-gray-100 tracking-tight leading-tight;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gov-blue-700 text-white font-bold transition-all duration-300 hover:bg-gov-blue-800 hover:shadow-lg hover:shadow-gov-blue-500/30 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white dark:bg-gray-800 text-gov-blue-900 dark:text-gray-100 font-bold border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-[0.98];
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 transition-shadow focus:outline-none focus:ring-2 focus:ring-gov-blue-500/20 focus:border-gov-blue-500 placeholder:text-gray-400 dark:placeholder:text-gray-600;
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+
+  .dark .glass {
+    @apply bg-gray-900/70 border-white/10;
+  }
+
+  .card, .premium-card {
+    @apply relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-6;
+  }
+
+  .loading-spinner {
+    @apply w-12 h-12 border-4 border-gov-blue-500/30 border-t-gov-blue-700 rounded-full animate-spin;
+  }
+}
+
+/* Page Transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms, transform 400ms;
+}
+.page-exit {
+  opacity: 1;
+}
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full border-4 border-transparent bg-clip-content hover:bg-gray-400 dark:hover:bg-gray-600;
+}
